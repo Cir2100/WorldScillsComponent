@@ -122,6 +122,8 @@ class ListComponent @JvmOverloads constructor(
     private var mainImageStartX = 0f
     private var swipeImageStartX = 0f
 
+    private val SWIPE_TRESTOLD = 100
+
 
     init {
         val inflater : LayoutInflater = LayoutInflater.from(context)
@@ -156,10 +158,13 @@ class ListComponent @JvmOverloads constructor(
             }
             MotionEvent.ACTION_UP -> {
                 eventEndX = event.x
-                if (eventEndX > eventStartX)
-                    swipeRight()
+                if (SWIPE_TRESTOLD <= abs(eventEndX - eventStartX))
+                    if (eventEndX > eventStartX)
+                        swipeRight()
+                    else
+                        swipeLeft()
                 else
-                    swipeLeft()
+                    updateView()
             }
         }
         return false
